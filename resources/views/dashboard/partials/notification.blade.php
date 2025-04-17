@@ -1,4 +1,5 @@
-<div id="notification" class="fixed top-4 right-4 z-50 hidden">
+@if(session('status'))
+<div id="notification" class="fixed top-4 right-4 z-50 opacity-0 translate-y-[-20px] transition-all duration-500 ease-out p-7">
     <div class="rounded-md bg-green-50 p-4 shadow-lg">
         <div class="flex">
             <div class="flex-shrink-0">
@@ -7,8 +8,31 @@
                 </svg>
             </div>
             <div class="ml-3">
-                <p id="notification-message" class="text-sm font-medium text-green-800"></p>
+                <p class="text-sm font-medium text-green-800">{{ session('status') }}</p>
             </div>
         </div>
     </div>
 </div>
+@endif
+
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const notification = document.getElementById('notification');
+        if (notification) {
+            // Animate in
+            requestAnimationFrame(() => {
+                notification.classList.remove('opacity-0', 'translate-y-[-20px]');
+                notification.classList.add('opacity-100', 'translate-y-0');
+            });
+
+            // Animate out after 4 seconds
+            setTimeout(() => {
+                notification.classList.remove('opacity-100', 'translate-y-0');
+                notification.classList.add('opacity-0', '-translate-y-2');
+            }, 4000);
+        }
+    });
+</script>

@@ -13,6 +13,7 @@
                
                 
                 <!-- Stats and Content -->
+                @include('dashboard.partials.preview', [ 'page' => $task])
 
             </main>
         </div>

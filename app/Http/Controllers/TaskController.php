@@ -4,15 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
-
 
 class TaskController extends Controller
 {
     public function index()
     {
-        $tasks = Task::orderBy('created_at', 'desc')->get();
-        return view('dashboard.index', compact('tasks'));
+        $tasks = Task::all();
+        $completedCount = Task::where('status', 'completed')->count();
+        $inProgressCount = Task::where('status', 'pending')->count(); // or 'in_progress' if that's your status name
+
+        return view('dashboard.index', [
+            'tasks' => $tasks,
+            'completedCount' => $completedCount,
+            'inProgressCount' => $inProgressCount,
+        ]);       
     }
 
     public function tasks()
@@ -21,7 +28,6 @@ class TaskController extends Controller
         return view('dashboard.tasks', compact('tasks'));
     }
 
-   
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -34,20 +40,26 @@ class TaskController extends Controller
         // Create task without user association
         Task::create($validated);
 
-        
-
         return redirect()->route('tasks.index');
     }
 
     public function show(Task $task)
     {
-       //$task = Task::findOrFail($task);
-        return view('dashboard.index', compact('task'));
+        return view('dashboard.preview', compact('task'));
     }
 
     public function edit(Task $task)
     {
-        return view('tasks.edit', compact('task'));
+        return view('dashboard.edit', compact('task'));
+    }
+
+    public function markAsDone(Task $task)
+    {
+        $task->update([
+            'status' => 'completed',
+        ]);
+
+        return redirect()->route('tasks.index');
     }
 
     public function update(Request $request, Task $task)
@@ -68,7 +80,24 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         $task->delete();
-        return redirect()->route('tasks.index')
-            ->with('success', 'Task deleted successfully!');
+
+        // Redirect back to task list after deletion
+        return redirect()->route('task.tasks');
+    }
+
+    // Logout functionality
+    public function logout(Request $request)
+    {
+        // Log out the user and clear session data
+        Auth::logout();
+
+        // Invalidate the session to prevent session fixation
+        $request->session()->invalidate();
+
+        // Regenerate CSRF token to protect against session fixation
+        $request->session()->regenerateToken();
+
+        // Redirect to the login page
+        return redirect('/');
     }
 }

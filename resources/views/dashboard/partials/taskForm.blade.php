@@ -22,7 +22,7 @@
             
 
                <!-- Error Message Container -->
-        <div id="form-errors" class="mb-4 @if(!$errors->any()) hidden @endif">
+        <div id="form-errors" class="mb-4 @if(!$errors->any()) hidden @endif" name="taskForm">
             <div class="rounded-md bg-red-50 p-4">
                 <div class="flex">
                     <div class="flex-shrink-0">

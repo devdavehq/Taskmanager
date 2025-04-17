@@ -1,4 +1,4 @@
-<div class="py-8">
+<div class="py-7">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <!-- Stats Cards -->
         <div class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 mb-8">
@@ -15,7 +15,7 @@
             <!-- In Progress -->
             <div class="overflow-hidden rounded-lg bg-white px-4 py-5 shadow sm:p-6">
                 <dt class="truncate text-sm font-medium text-gray-500">In Progress</dt>
-                <dd class="mt-1 text-3xl font-semibold tracking-tight text-blue-600">{{ $inProgressCount ?? 0 }}</dd>
+                <dd class="mt-1 text-3xl font-semibold tracking-tight text-yellow-600">{{ $inProgressCount ?? 0 }}</dd>
             </div>
         </div>
 

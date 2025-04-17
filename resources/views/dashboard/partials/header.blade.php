@@ -5,8 +5,8 @@
                 {{ $page === 'task' ? 'View Tasks' : ($page === 'dashboard' ? 'Task Management' : 'Preview') }}
             </h1>
             <div class="flex items-center space-x-4">
-
             </div>
         </div>
+        
     </div>
 </header>
